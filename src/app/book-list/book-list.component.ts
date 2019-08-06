@@ -1,5 +1,5 @@
 import { Book } from './../shared/book';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'bm-book-list',
@@ -9,6 +9,7 @@ import { Component, OnInit } from '@angular/core';
 export class BookListComponent implements OnInit {
 
   books: Book[];
+  @Output() showDetailsEvent = new EventEmitter<Book>();
 
   constructor() { }
 
@@ -40,6 +41,10 @@ export class BookListComponent implements OnInit {
         description: 'Besser geht es nicht: das ultimative Buch zu Angular, geschrieben von den besten Entwicklern der Welt...'
       }
     ];
+  }
+
+  showDetails(book: Book) {
+    this.showDetailsEvent.emit(book);
   }
 
 }
