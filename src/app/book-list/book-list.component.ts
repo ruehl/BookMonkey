@@ -9,7 +9,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class BookListComponent implements OnInit {
 
-  books: Book[] = [];
+  books: Book[];
 
   constructor(private bookStoreService: BookStoreService) { }
 
