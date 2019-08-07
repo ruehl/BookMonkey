@@ -9,12 +9,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class BookListComponent implements OnInit {
 
-  books: Book[];
+  books: Book[] = [];
 
   constructor(private bookStoreService: BookStoreService) { }
 
   ngOnInit() {
-    this.books = this.bookStoreService.getAll();
+    this.bookStoreService.getAll().subscribe( res => {
+      this.books = res;
+    });
   }
 
 }

@@ -1,46 +1,28 @@
 import { Book } from './book';
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BookStoreService {
 
-  constructor() { }
+  private api = "https://api3.angular-buch.com";
 
-  books: Book[] = [
-    {
-      isbn: '332323232233',
-      title: 'Angular',
-      authors: ['Ferdinand Malcher', 'Johannes Hoppe', 'Danny Koppenhagen'],
-      published: new Date(2019, 4, 30),
-      subtitle: 'Grundlagen, fortgeschrittene Themen und Best Practives - mit NativeScript und NgRx',
-      rating: 5,
-      thumbnails: [{
-        url: 'https://ng-buch.de/buch1.jpg',
-        title: 'Buchcover'
-      }],
-      description: 'Die Autoren führen Sie mit einem ansprichsvollen Beispielprojekt durch die Welt von Angular...'
-    }, {
-      isbn: '332323234213',
-      title: 'Superstar Angular',
-      authors: ['Christian Rühl', 'Markus Schramm', 'Heiko Barth'],
-      published: new Date(2019, 6, 30),
-      subtitle: 'Profi Know-how für Angular-Entwickler',
-      rating: 5,
-      thumbnails: [{
-        url: 'https://ng-buch.de/buch2.jpg',
-        title: 'Buchcover'
-      }],
-      description: 'Besser geht es nicht: das ultimative Buch zu Angular, geschrieben von den besten Entwicklern der Welt...'
-    }
-  ];
+  constructor(private httpClient: HttpClient) { }
 
-  getAll(): Book[] {
-    return this.books;
+  books: Book[] = [];
+
+  getAll(): Observable<Book[]> {
+    return this.httpClient.get<any[]>(`${this.api}/books`);
   }
 
-  getSingle(isbn: string): Book {
-    return this.books.find(book => book.isbn === isbn);
+  getSingle(isbn: string): Observable<Book> {
+    return this.httpClient.get<any>(`${this.api}/book/${isbn}`);
+  }
+
+  remove(isbn: string): Observable<any> {
+    return this.httpClient.delete(`${this.api}/book/${isbn}`, { responseType: 'text'});
   }
 }
