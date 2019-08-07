@@ -1,7 +1,10 @@
+import { BookFactory } from './book-factory';
+import { BookRaw } from './book-raw';
 import { Book } from './book';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -15,11 +18,17 @@ export class BookStoreService {
   books: Book[] = [];
 
   getAll(): Observable<Book[]> {
-    return this.httpClient.get<any[]>(`${this.api}/books`);
+    return this.httpClient.get<BookRaw[]>(`${this.api}/books`)
+    .pipe(
+      map(booksRaw => booksRaw.map(b => BookFactory.fromRaw(b)))
+    );
   }
 
   getSingle(isbn: string): Observable<Book> {
-    return this.httpClient.get<any>(`${this.api}/book/${isbn}`);
+    return this.httpClient.get<BookRaw>(`${this.api}/book/${isbn}`)
+    .pipe(
+      map(b => BookFactory.fromRaw(b))
+    );
   }
 
   remove(isbn: string): Observable<any> {
