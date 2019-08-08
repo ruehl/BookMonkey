@@ -11,7 +11,7 @@ import { map, retry, catchError } from 'rxjs/operators';
 })
 export class BookStoreService {
 
-  private api = 'http://localhost:3000';
+  private api = 'http://localhost:3000/secure';
 
   constructor(private httpClient: HttpClient) { }
 
