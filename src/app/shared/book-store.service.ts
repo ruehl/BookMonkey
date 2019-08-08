@@ -27,7 +27,7 @@ export class BookStoreService {
   }
 
   getSingle(isbn: string): Observable<Book> {
-    return this.httpClient.get<BookRaw>(`${this.api}/book2/${isbn}`)
+    return this.httpClient.get<BookRaw>(`${this.api}/book/${isbn}`)
     .pipe(
       retry(3),
       map(b => BookFactory.fromRaw(b)),
